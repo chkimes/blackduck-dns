@@ -1,0 +1,30 @@
+name: Reproduce
+
+on: watch
+
+jobs:
+  request:
+    if: github.actor == 'chkimes'
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v1
+        
+    - name: Start tcpdump
+      run: |
+        sudo tcpdump -D
+        sudo tcpdump -i any -nn -w blackduck.cap &
+        
+    - name: nslookup
+      run: |
+        nslookup bpuksandbox.app.blackduck.com.
+    
+    - name: Kill tcpdump
+      run: |
+        sudo kill -2 $(ps -e | pgrep tcpdump)
+    - name: Upload to file.io
+      run: |
+        zip blackduck.zip blackduck.cap
+        ls -l
+        sudo curl -F 'file=@okta.blackduck' https://file.io
