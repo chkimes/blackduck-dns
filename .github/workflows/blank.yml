@@ -18,7 +18,7 @@ jobs:
         
     - name: nslookup
       run: |
-        nslookup bpuksandbox.app.blackduck.com.
+        nslookup bpuksandbox.app.blackduck.com. || true
     
     - name: Kill tcpdump
       run: |
