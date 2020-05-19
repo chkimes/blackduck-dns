@@ -16,8 +16,13 @@ jobs:
         sudo tcpdump -D
         sudo tcpdump -i any -nn -w blackduck.cap &
         
-    - name: nslookup
+    - name: nslookup with default DNS
       run: |
+        nslookup bpuksandbox.app.blackduck.com. || true
+
+    - name: nslookup with google DNS
+      run: |
+        echo 'nameserver 8.8.8.8' | sudo tee -a /etc/resolv.conf
         nslookup bpuksandbox.app.blackduck.com. || true
     
     - name: Kill tcpdump
