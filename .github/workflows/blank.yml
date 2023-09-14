@@ -1,6 +1,8 @@
 name: Reproduce
 
-on: watch
+on:
+  - push
+  - workflow_dispatch
 
 jobs:
   request:
@@ -11,25 +13,5 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v1
         
-    - name: Start tcpdump
-      run: |
-        sudo tcpdump -D
-        sudo tcpdump -i any -nn -w blackduck.cap &
-        
-    - name: nslookup with default DNS
-      run: |
-        nslookup bpuksandbox.app.blackduck.com. || true
-
-    - name: nslookup with google DNS
-      run: |
-        echo 'nameserver 8.8.8.8' | sudo tee -a /etc/resolv.conf
-        nslookup bpuksandbox.app.blackduck.com. || true
-    
-    - name: Kill tcpdump
-      run: |
-        sudo kill -2 $(ps -e | pgrep tcpdump)
-    - name: Upload to file.io
-      run: |
-        zip blackduck.zip blackduck.cap
-        ls -l
-        sudo curl -F 'file=@blackduck.zip' https://file.io
+    - name: uname
+      run: uname -a
